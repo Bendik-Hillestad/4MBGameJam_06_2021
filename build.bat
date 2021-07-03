@@ -29,13 +29,13 @@ REM Compile the game
 
 echo - Compiling the game (Release)
 
-cl.exe %CompilerFlags% /D"NDEBUG" /Fo"tmp/obj/main.obj" /c src/test.cpp
+cl.exe %CompilerFlags% /D"NDEBUG" /Fo"tmp/obj/game.obj" /c src/test.cpp
 
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 echo - Compiling the game (Debug)
 
-cl.exe %CompilerFlags% /D"_DEBUG" /Zi /Fo"tmp/obj/main_d.obj" /Fd"tmp/obj/main_d.pdb" /c src/test.cpp
+cl.exe %CompilerFlags% /D"_DEBUG" /Zi /Fo"tmp/obj/game_d.obj" /Fd"tmp/obj/game_d.pdb" /c src/test.cpp
 
 if %errorlevel% neq 0 exit /b %errorlevel%
 
@@ -43,20 +43,20 @@ REM Link the game
 
 echo - Linking the game (Release)
 
-link.exe %LinkerFlags% /subsystem:windows /out:tmp/exe/main.exe tmp/obj/main.obj kernel32.lib user32.lib gdi32.lib opengl32.lib 1>nul
+link.exe %LinkerFlags% /subsystem:windows /out:tmp/exe/game.exe tmp/obj/game.obj kernel32.lib user32.lib gdi32.lib opengl32.lib 1>nul
 
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 echo - Linking the game (Debug)
 
-link.exe /debug:full %LinkerFlags% /subsystem:console /out:tmp/exe/main_d.exe /pdb:tmp/exe/main_d.pdb tmp/obj/main_d.obj kernel32.lib user32.lib gdi32.lib opengl32.lib 1>nul
+link.exe /debug:full %LinkerFlags% /subsystem:console /out:tmp/exe/game_d.exe /pdb:tmp/exe/game_d.pdb tmp/obj/game_d.obj kernel32.lib user32.lib gdi32.lib opengl32.lib 1>nul
 
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 REM Move executable to the out directory
 
-move /Y "tmp\exe\main.exe" "out\main.exe" >nul
-move /Y "tmp\exe\main_d.exe" "out\main_d.exe" >nul
-move /Y "tmp\exe\main_d.pdb" "out\main_d.pdb" >nul
+move /Y "tmp\exe\game.exe" "out\game.exe" >nul
+move /Y "tmp\exe\game_d.exe" "out\game_d.exe" >nul
+move /Y "tmp\exe\game_d.pdb" "out\game_d.pdb" >nul
 
-echo - Done -^> %~dp0out/main.exe
+echo - Done -^> %~dp0out\game.exe

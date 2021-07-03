@@ -4,6 +4,7 @@ on:
     push:
         branches:
         - master
+    release:
 
 jobs:
     build:
@@ -16,7 +17,38 @@ jobs:
               run: |
                 call "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars32.bat"
                 call ./build.bat
-            - uses: actions/upload-artifact@v1
+            - name: Create archives
+              shell: pwsh
+              run: |
+                Compress-Archive -Path "out/game.exe" -DestinationPath "out/game.zip"
+                Compress-Archive -Path @("out/game_d.exe", "out/game_d.pdb") -DestinationPath "out/game_debug.zip"
+            - name: Upload release artifact
+              uses: actions/upload-artifact@v2
               with:
-                name: build-artifacts
-                path: out/
+                path: out/game.zip
+                name: game
+            - name: Upload debug artifacts
+              uses: actions/upload-artifact@v2
+              with:
+                path: out/game_debug.zip
+                name: game_debug
+            - name: Upload release build
+              if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'created')
+              uses: actions/upload-release-asset@v1
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                upload_url: ${{ github.event.release.upload_url }}
+                asset_path: out/game.zip
+                asset_name: game.zip
+                asset_content_type: application/zip
+            - name: Upload debug build
+              if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'created')
+              uses: actions/upload-release-asset@v1
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                upload_url: ${{ github.event.release.upload_url }}
+                asset_path: out/game_debug.zip
+                asset_name: game_debug.zip
+                asset_content_type: application/zip
