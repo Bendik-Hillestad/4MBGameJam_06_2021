@@ -1,0 +1,21 @@
+name: Build
+
+on:
+    push:
+        branches:
+        - master
+
+jobs:
+    build:
+        name: Win32
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Compile
+              run: |
+                "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars32.bat"
+                build.bat
+            - uses: actions/upload-artifact@v1
+              with:
+                name: build-artifacts
+                path: out/
