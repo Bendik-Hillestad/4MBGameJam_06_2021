@@ -5,6 +5,8 @@ on:
         branches:
         - master
     release:
+        types:
+          - types: [published]
 
 jobs:
     build:
@@ -33,7 +35,7 @@ jobs:
                 path: out/game_debug.zip
                 name: game_debug
             - name: Upload release build
-              if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'created')
+              if: github.event_name == 'release'
               uses: actions/upload-release-asset@v1
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -43,7 +45,7 @@ jobs:
                 asset_name: game.zip
                 asset_content_type: application/zip
             - name: Upload debug build
-              if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'created')
+              if: github.event_name == 'release'
               uses: actions/upload-release-asset@v1
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
