@@ -8,13 +8,14 @@ on:
 jobs:
     build:
         name: Win32
-        runs-on: windows-latest
+        runs-on: windows-2019
         steps:
             - uses: actions/checkout@v2
             - name: Compile
               shell: cmd
-              run: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars32.bat"
-              run: ./build.bat
+              run: |
+                call "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars32.bat"
+                call ./build.bat
             - uses: actions/upload-artifact@v1
               with:
                 name: build-artifacts
