@@ -29,13 +29,13 @@ REM Compile the game
 
 echo - Compiling the game (Release)
 
-cl.exe %CompilerFlags% /D"NDEBUG" /Fo"tmp/obj/game.obj" /c src/test.cpp
+cl.exe %CompilerFlags% /D"NDEBUG" /Fo"tmp/obj/game.obj" /c src/main.cpp
 
 if %errorlevel% neq 0 exit /b %errorlevel%
 
 echo - Compiling the game (Debug)
 
-cl.exe %CompilerFlags% /D"_DEBUG" /Zi /Fo"tmp/obj/game_d.obj" /Fd"tmp/obj/game_d.pdb" /c src/test.cpp
+cl.exe %CompilerFlags% /D"_DEBUG" /Zi /Fo"tmp/obj/game_d.obj" /Fd"tmp/obj/game_d.pdb" /c src/main.cpp
 
 if %errorlevel% neq 0 exit /b %errorlevel%
 
